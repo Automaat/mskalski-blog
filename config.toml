@@ -8,8 +8,8 @@ hasCJKLanguage = false                                   # whether to include ch
 paginate = 12                                            # default amount of posts in each pages
 enableEmoji = true                                       # whether to use emoji code
 enableRobotsTXT = true                                   # whether to use robots.txt
-googleAnalytics = ""                                     # [UA-XXXXXXXX-X] google analytics code
-disqusShortname = "dillonzq"                             # Disqus shortname to use Disqus in posts
+googleAnalytics = "UA-154393799-1"                                     # [UA-XXXXXXXX-X] google analytics code
+disqusShortname = "mskalski"                             # Disqus shortname to use Disqus in posts
 copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."
                                                          # copyright description used only for seo schema
 
@@ -40,39 +40,41 @@ staticDir = ["static", "../assets/others"]               # static directories
     weight = 1
 
   [[menu.main]]
-    identifier = "tags"
-    name = "Tags"
-    url = "tags"
-    weight = 2
-
-  [[menu.main]]
-    identifier = "categories"
-    name = "Categories"
-    url = "categories"
-    weight = 3
-
-  [[menu.main]]
     identifier = "about"
     name = "About"
     url = "about"
-    weight = 4
+    weight = 2
+#
+#  [[menu.main]]
+#    identifier = "tags"
+#    name = "Tags"
+#    url = "tags"
+#    weight = 2
+#
+#  [[menu.main]]
+#    identifier = "categories"
+#    name = "Categories"
+#    url = "categories"
+#    weight = 3
 
-  [[menu.main]]
-    identifier = "zh"
-    name = '<i class="fas fa-language fa-fw"></i>'
-    url = "https://hugo-loveit-zh.netlify.com"
-    weight = 5
+
+#
+#  [[menu.main]]
+#    identifier = "zh"
+#    name = '<i class="fas fa-language fa-fw"></i>'
+#    url = "https://hugo-loveit-zh.netlify.com"
+#    weight = 5
 
 [params]
   version = "5.x"                                        # LoveIt theme version
-  description = "LoveIt Theme Demo"                      # site description
-  keywords = ["XXXX", "Theme", "Hugo"]                   # site keywords
+  description = "Marcin Skalsi's personal blog about JVM internals, performance and other Java related stuff"                      # site description
+  keywords = ["JVM", "Performance tuning", "Jvm internals", "Java"]                   # site keywords
 
                                                       #### Home Page Info
   home_mode = "post"                                     # [post, other] home mode
   home_paginate = 6                                      # special amount of posts in each home post page
-  avatar = "images/avatar.png"                           # URL of avatar shown in home page
-  subtitle = "A Clean, Elegant but Advanced Hugo Theme"  # subtitle shown in home page
+  avatar = "images/avatar.jpg"                           # URL of avatar shown in home page
+  subtitle = "Can it run faster?"  # subtitle shown in home page
 
   socialShare = true                                     # whether to show social share links in post page
 
@@ -117,13 +119,13 @@ staticDir = ["static", "../assets/others"]               # static directories
     email = ""
 
   [params.social]                                        # Social Info in home page
-    GitHub = "https://github.com/Automaat"
-    Linkedin = "https://www.linkedin.com/in/skalskimarcin/"
-    Twitter = "xxxx"
-    #Instagram = "xxxx"
+    GitHub = "Automaat"
+    Linkedin = "skalskimarcin"
+    Twitter = "MarcinSkalski5"
+    Instagram = "marcinskalski_photo"
     Email = "skalskimarcin33(at)gmail.com"
-    Facebook = "xxxx"
-    Telegram = "xxxx"
+#    Facebook = "xxxx"
+#    Telegram = "xxxx"
     #Medium = "xxxx"
     #Gitlab = "xxxx"
     #Youtubelegacy = "xxxx"
@@ -189,14 +191,14 @@ staticDir = ["static", "../assets/others"]               # static directories
     #Weibo = true
 
   [params.publisher]                                     # Publisher Info just for SEO
-    name = "XXXX"
+    name = "Marcin Skalski"
     [params.publisher.logo]
-      url = "logo.png"
+      url = "logo.jpg"
       width = 127
       height = 40
 
   [params.logo]                                          # Website Log Info just for SEO
-    url = "logo.png"
+    url = "logo.jpg"
     width = 127
     height = 40
 
