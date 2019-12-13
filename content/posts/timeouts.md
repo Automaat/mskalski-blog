@@ -1,7 +1,7 @@
 ---
 title: "Why my HTTP request did not timed out? Quick tour inside JDK and OkHttpClient for better understanding of timeouts"
-date: 2019-12-13T18:24:30+01:00
-draft: false
+date: 2019-12-13T07:45:47+01:00
+draft: true
 ---
 
 So you have jvm based service (A) that is communicating with another service (B) using some kind of HTTP client. 
@@ -9,8 +9,11 @@ You know what you are doing so you gathered metrics statistics from your depende
 Let’s assume that p99 of its response times form service B are 200ms. Also, this service is fairly close to you for example in the 
 same data center. You adjusted your timeouts accordingly, for example, you’ve set `connection timeout` to 50ms 
 and `socket timeout` to 250ms.  Everything works fine but you are really thorough, have great 
-observability in your service and monitor metrics regularly. One day you noticed that from time to time 
-requests to service B took 500ms. Wait, what? How is this even possible? You have set timeouts and in the 
+observability in your service and monitor metrics regularly. One day you noticed something:
+
+![](/images/2019/12/grafana.png)
+ 
+ Wait, what? How is this even possible? You have set timeouts and in the 
 worst-case scenario, your requests should be timed out after 250ms.
 
 Connection timeout restricts how long we will wait until the connection is established. So the result can be 
@@ -125,7 +128,7 @@ As we can see in line (7) `SocketOptions.SO_TIMEOUT` option is set on our `java.
 In this scenario, `java.net.PlainSocketImpl` implementation of a socket is used. When we look at our client code in 
 line (13) we get `InputStream` form our socket and it is `java.net.SocketInputStream`. Next in line (19) we are calling
 `read(byte b[], int off, int len)` method, underneath it is using written in C method `Java_java_net_SocketInputStream_socketRead0`
-This method is long and you don't need to read it all. (But I encourage you to do it 😉) The important for us is part: 
+This method is long and you do not need to read it all. (But I encourage you to do it 😉) The important for us is part: 
 ```c
 if (timeout) {
     if (timeout <= 5000 || !isRcvTimeoutSupported) {
@@ -156,11 +159,12 @@ if (timeout) {
     }
 }
 ```
-In the line (3) `NET_Timeout` function is called, when we look inside it we can see that it is calling polling function that
-waits for events on file descriptor, for Linux it is `poll(2)` for BSD `select(2)` and `select(4)` for Windows.
-For all of those functions timeout is passed and they return how on how many descriptors registered some events. 
-In next steps errors are handled and `SocketTimeoutException` is thrown if polling function timed out and returned `-1` 
-value. If everything went well this piece of code is executed:
+In the line (3) `NET_Timeout` function is called, when we look inside it we can see that it is calling operating system 
+polling function that waits for events on file descriptor, in Linux it is `poll(2)` in BSD `select(2)` and `select(4)` in Windows.
+For all of those functions timeout that we specified earlier is passed. Those polling functions will wait without blocking
+until the end of our timeout or for events on file descriptors to occur. They return how many descriptors registered some events. 
+In next steps errors are handled and `SocketTimeoutException` is thrown if polling function returned `-1` which means it 
+timed out. If everything went well this piece of code is executed:
 ```c
 nread = recv(fd, bufP, len, 0);
 if (nread > 0) {
@@ -173,7 +177,7 @@ we have passed to `InputStream.read` function and number of read bytes is return
 
 # Returning to our simple client
 So we know how socket timeout work, it is pretty simple and it does what most of us probably thought it do. 
-But it still didn't explain why some of the requests to service B took more than timeout, so let's dig deeper.
+But it still did not explain why some of the requests to service B took more than timeout, so let's dig deeper.
 
 What happens when we put our sleep just after sending the first byte? 
 In our logs, we can see that we have read a single byte and then we got `SocketTimeoutException`, so our client read the first 
@@ -210,7 +214,7 @@ private void readFrom(InputStream in, long byteCount, boolean forever) throws IO
   }
 ```
 This client have to read the expected amount of data and will read in parts until whole message was send, so even if 
-single byte was send via socket before timeout elapsed `SocketTimeoutException` won't be thrown.
+single byte was send via socket before timeout elapsed `SocketTimeoutException` will not be thrown.
 
 ### But how does it know how many bytes should it read?
 
@@ -219,6 +223,8 @@ which contains status code, next we have `headers` and finally `message body`. H
 Also one of the headers is `Content-Length` which indicates how long message body will be. So while receiving response 
 from another service via `HTTP/1.1` we can calculate when to stop reading from the socket after receiving an appropriate amount 
 of bytes.
+
+![Http protocol](/images/2019/12/HTTP_Response.png)
 
 
 # Summing up
@@ -229,4 +235,11 @@ time from last bit of information after your connection will be interrupted. You
 next time in your application and adjust them accordingly.
 
 That all from me, thank you all for reading my first post. Feel free to let me know how you liked it, also I encourage
-you to comment, ask questions and share the knowledge with your coworkers. 
+you to comment, ask questions and share the knowledge with your coworkers.  
+
+## References
+[Source code of examples used in this post](https://github.com/Automaat/extended_timeouts)
+
+[OkHttp](https://github.com/square/okhttp/)
+
+[JDK](https://hg.openjdk.java.net/jdk/jdk)
