@@ -4,7 +4,7 @@ date: 2019-12-13T07:45:47+01:00
 draft: true
 ---
 
-So you have jvm based service (A) that is communicating with another service (B) using some kind of HTTP client. 
+So you have JVM based service (A) that is communicating with another service (B) using some kind of HTTP client. 
 You know what you are doing so you gathered metrics statistics from your dependency. Especially it’s response times. 
 Let’s assume that p99 of its response times form service B are 200ms. Also, this service is fairly close to you for example in the 
 same data center. You adjusted your timeouts accordingly, for example, you’ve set `connection timeout` to 50ms 
@@ -13,12 +13,12 @@ observability in your service and monitor metrics regularly. One day you noticed
 
 ![](/images/2019/12/grafana.png)
  
- Wait, what? How is this even possible? You have set timeouts and in the 
+Wait, what? How is this even possible? You have set timeouts and in the 
 worst-case scenario, your requests should be timed out after 250ms.
 
 Connection timeout restricts how long we will wait until the connection is established. So the result can be 
 either an open connection or unreachable host. So there shouldn’t be any problems. Let's take a look at socket timeout 
-maybe we cna find something interesting.
+maybe we can find something interesting.
 
 # "Talk is cheap, show me the code"
 To get a better understanding of whats going on we could write a simple socket server and simple client. All of the code was 
@@ -51,9 +51,9 @@ public class Main {
 }
 ```
 
-It is not rocket science, we create a new instance of `SocketServer` running on port `59090`. Next in line (9) we 
-prepare the message that we will send and it is a single byte. but we will be sending it 200 times. 
-Next, we have an infinite loop that will wait for client connections and when a client connects to our server we will send 
+It is not rocket science, we are creating a new instance of `SocketServer` running on port `59090`. Next in line (9) we 
+prepare the message that we will send and it is a single byte, we will be sending it 200 times. 
+Next, we have an infinite loop that will wait for client connections and when this happens we will send 
 him our message.
 
 Now, let's take a look at the client: 
@@ -85,12 +85,11 @@ public class SimpleClient {
         System.out.println("In total read " + offset + " bytes.");
     }
 }
-
 ```
-Not much to see here, we create new `Socket` instance that will connect to our localhost on port `59090` then we set 
+Not much to see here, we are creating new `Socket` instance that will connect to our localhost on port `59090` then we set 
 `soTimout` to `100ms` this is what we will be monitoring. Next, there is a prepared byte array to store the response from our
 server. With everything prepared we can start reading. We know that we should read `200 bytes` so we will read until we 
-have read 200 bytes and there is anything to read. At the end to check if everything went well and we read the amount of 
+have collect 200 bytes and there is something to read. At the end to check if everything went well and we read the amount of 
 bytes that were expected we can print our reading offset.
 (Function `InputStream.read(byte b[], int off, int len)` returns amount of bytes that were read). 
 
@@ -112,7 +111,7 @@ Exception in thread "main" java.net.SocketTimeoutException: Read timed out
 	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:140)
 	at com.skalski.SimpleClient.main(SimpleClient.java:17)
 ```
-Everything works as expected. We can take a closer look right now what is going on inside of jdk code.
+Everything works as expected. We can take a closer look right now what is going on inside of JDK code.
 When we call `socket.setSoTimeout(100)`, this piece of code is executed:
  ```java
 public synchronized void setSoTimeout(int timeout) throws SocketException {
@@ -228,7 +227,7 @@ of bytes.
 
 
 # Summing up
-After reading this short article you should know how timeouts work inside of `jdk` and why your request to another service
+After reading this short article you should know how timeouts work inside of `JDK` and why your request to another service
 took longer than expected. The Most important piece of knowledge you should remember is that when you set `socketTimeout` for
 example on `RestTemplate` while using Spring you set a timeout for every single read form socket which effectively becomes 
 time from last bit of information after your connection will be interrupted. You should keep it in mind when you set timeouts
