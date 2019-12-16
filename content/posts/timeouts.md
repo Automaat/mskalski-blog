@@ -231,7 +231,8 @@ After reading this short article you should know how timeouts work inside of `JD
 took longer than expected. The Most important piece of knowledge you should remember is that when you set `socketTimeout` for
 example on `RestTemplate` while using Spring you set a timeout for every single read form socket which effectively becomes 
 time from last bit of information after your connection will be interrupted. You should keep it in mind when you set timeouts
-next time in your application and adjust them accordingly.
+next time in your application and adjust them accordingly. Fortunately since `3.12.0` version of `OkHttp` client you can specify
+call timeout `OkHttpClient.Builder.callTimeout()` which will limit whole operation time.
 
 That all from me, thank you all for reading my first post. Feel free to let me know how you liked it, also I encourage
 you to comment, ask questions and share the knowledge with your coworkers.  
