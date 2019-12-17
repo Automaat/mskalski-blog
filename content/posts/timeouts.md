@@ -193,7 +193,7 @@ more than 10 seconds. Maybe there is some bug? Let's run it again:
 Operation took: 10509
 In total read 200 bytes.
 ```
-Almost the same result. Can it be our original problem? Yes it is! I is almost exactly how `OkHttpClient` work. Here is 
+Almost the same result. Can it be our original problem? Yes it is! It is almost exactly how `OkHttpClient` works. Here is 
 code sample from this library: 
 ```java
 private void readFrom(InputStream in, long byteCount, boolean forever) throws IOException {

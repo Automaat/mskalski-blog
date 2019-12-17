@@ -68,7 +68,7 @@ staticDir = ["static", "../assets/others"]               # static directories
 [params]
   version = "5.x"                                        # LoveIt theme version
   description = "Marcin Skalsi's personal blog about JVM internals, performance and other Java related stuff"                      # site description
-  keywords = ["JVM", "Performance tuning", "Jvm internals", "Java"]                   # site keywords
+  keywords = ["JVM", "Performance tuning", "Jvm internals", "Java", "JDK", "Kotlin", "Performance engineering"]                   # site keywords
 
                                                       #### Home Page Info
   home_mode = "post"                                     # [post, other] home mode
@@ -121,7 +121,7 @@ staticDir = ["static", "../assets/others"]               # static directories
   [params.social]                                        # Social Info in home page
     GitHub = "Automaat"
     Linkedin = "skalskimarcin"
-    Twitter = "MarcinSkalski5"
+    Twitter = "mskalski_"
     Instagram = "marcinskalski_photo"
     Email = "skalskimarcin33(at)gmail.com"
 #    Facebook = "xxxx"
