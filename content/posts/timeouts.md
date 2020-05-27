@@ -1,7 +1,7 @@
 ---
 title: "Why my HTTP request did not timed out? Quick tour inside JDK and OkHttpClient for better understanding of timeouts"
 date: 2019-12-13T07:45:47+01:00
-draft: true
+draft: false
 ---
 
 So you have JVM based service (A) that is communicating with another service (B) using some kind of HTTP client. 
