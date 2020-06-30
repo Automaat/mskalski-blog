@@ -2,6 +2,7 @@
 title: ""
 date: 2019-12-11T11:04:49+08:00
 draft: false
+comment: false
 ---
 
 Hi, my name is Marcin, and since I remember I loved to know how things work. When I was young I
