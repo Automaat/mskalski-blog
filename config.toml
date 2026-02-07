@@ -4,7 +4,7 @@ baseURL = "https://mskalski.dev/"
 defaultContentLanguage = "en"
 # theme
 # 主题
-theme = "LoveIt_updated"
+theme = "LoveIt"
 # themes directory
 # 主题目录
 #themesDir = "themes/.."
@@ -52,13 +52,21 @@ enableEmoji = true
         title = ""
         weight = 1
       [[languages.en.menu.main]]
+        identifier = "public_speaking"
+        pre = ""
+        post = ""
+        name = "Public Speaking"
+        url = "/public_speaking/"
+        title = ""
+        weight = 2
+      [[languages.en.menu.main]]
         identifier = "about"
         pre = ""
         post = ""
         name = "About"
         url = "/about/"
         title = ""
-        weight = 2
+        weight = 3
     [languages.en.params]
       # site description
       description = "Marcin Skalsi's personal blog about JVM internals, performance and other Java related stuff"
