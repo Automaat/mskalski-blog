@@ -1,0 +1,62 @@
+---
+import { getEntry, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const page = await getEntry('pages', 'about');
+if (!page) throw new Error('Missing about page content');
+const { Content } = await render(page);
+---
+
+<Layout
+  title="About | Marcin Skalski"
+  description="About Marcin Skalski, agentic AI, LLM systems, harness design, photography, and exploration."
+>
+  <section class="surface">
+    <div
+      class="container-custom grid gap-10 border-b py-12 rule-line desktop:grid-cols-[0.58fr_0.42fr] desktop:items-end desktop:py-20"
+    >
+      <div data-reveal>
+        <p class="eyebrow">About</p>
+        <h1 class="mt-4 max-w-5xl font-display text-[clamp(2.5rem,7vw,6rem)] leading-[1]">
+          Building reliable agentic systems.
+        </h1>
+      </div>
+      <figure class="about-image" data-reveal data-reveal-delay="120">
+        <img src="/images/avatar.jpg" alt="Marcin Skalski" loading="eager" decoding="async" />
+      </figure>
+    </div>
+  </section>
+
+  <section class="surface">
+    <div class="container-custom py-12 desktop:py-20">
+      <article class="page-prose mx-auto max-w-prose" data-reveal>
+        <Content />
+      </article>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .about-image {
+    background: var(--bg-soft);
+    border: 1px solid var(--rule);
+    padding: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .about-image img {
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .page-prose :global(p) {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .page-prose :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+</style>

@@ -1,0 +1,18 @@
+---
+import { getEntry, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { postExcerpt, postImage } from '../../utils/posts';
+
+const post = await getEntry('posts', '2020/05/xms_good_practice');
+if (!post) throw new Error('Missing xms_good_practice post');
+const { Content } = await render(post);
+---
+
+<ArticleLayout
+  title={post.data.title}
+  date={post.data.date}
+  description={postExcerpt(post, 240)}
+  image={postImage(post.id)}
+>
+  <Content />
+</ArticleLayout>

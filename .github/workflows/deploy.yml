@@ -1,0 +1,71 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+
+      - name: Check deploy token
+        env:
+          GH_PAGES_DEPLOY_TOKEN: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
+        run: |
+          if [ -z "$GH_PAGES_DEPLOY_TOKEN" ]; then
+            echo "::error::Missing GH_PAGES_DEPLOY_TOKEN secret with write access to Automaat/automaat.github.io."
+            exit 1
+          fi
+
+      - name: Check out GitHub Pages repository
+        uses: actions/checkout@v4
+        with:
+          repository: Automaat/automaat.github.io
+          ref: gh-pages
+          path: pages-repo
+          token: ${{ secrets.GH_PAGES_DEPLOY_TOKEN }}
+
+      - name: Publish to gh-pages
+        run: |
+          rsync -a --delete --exclude '.git' dist/ pages-repo/
+          cd pages-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "No changes to deploy."
+            exit 0
+          fi
+          git add -A
+          git commit -m "Deploy mskalski-blog ${GITHUB_SHA}"
+          git push origin gh-pages

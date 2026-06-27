@@ -1,0 +1,35 @@
+---
+const currentYear = new Date().getFullYear();
+
+const links = [
+  { href: 'mailto:skalskimarcin33@gmail.com', label: 'Email', external: false },
+  { href: 'https://github.com/Automaat', label: 'GitHub', external: true },
+  { href: 'https://www.linkedin.com/in/skalskimarcin/', label: 'LinkedIn', external: true },
+  { href: 'https://twitter.com/mskalski_', label: 'Twitter', external: true },
+  { href: 'https://www.instagram.com/marcinskalski_photo/', label: 'Instagram', external: true },
+  { href: '/rss.xml', label: 'RSS', external: false },
+];
+---
+
+<footer class="surface border-t rule-line">
+  <div
+    class="container-custom flex flex-col gap-5 py-10 tablet:flex-row tablet:items-baseline tablet:justify-between"
+  >
+    <p class="text-xs text-subtle">&copy; {currentYear} Marcin Skalski</p>
+
+    <div class="label-mono flex flex-wrap gap-x-7 gap-y-3">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            target={link.external ? '_blank' : undefined}
+            rel={link.external ? 'noopener noreferrer' : undefined}
+            class="transition-opacity hover:opacity-70"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</footer>
