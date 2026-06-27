@@ -40,12 +40,8 @@ const { posts, compact = false } = Astro.props;
             <h2 class="mt-3 font-display text-[clamp(1.75rem,3vw,2.75rem)] leading-[1.1]">
               {post.data.title}
             </h2>
-            <p class="mt-4 max-w-prose text-base leading-relaxed text-muted">
-              {postExcerpt(post)}
-            </p>
-            <span
-              class="label-mono mt-6 inline-flex items-center gap-2 underline underline-offset-8 transition-opacity group-hover:opacity-70"
-            >
+            <p class="mt-4 max-w-prose text-base leading-relaxed text-muted">{postExcerpt(post)}</p>
+            <span class="label-mono mt-6 inline-flex items-center gap-2 underline underline-offset-8 transition-opacity group-hover:opacity-70">
               Read post <span aria-hidden="true">-&gt;</span>
             </span>
           </div>
