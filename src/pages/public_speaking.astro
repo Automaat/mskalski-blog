@@ -1,0 +1,83 @@
+---
+import { getEntry, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const page = await getEntry('pages', 'public_speaking');
+if (!page) throw new Error('Missing public speaking page content');
+const { Content } = await render(page);
+---
+
+<Layout
+  title="Public Speaking | Marcin Skalski"
+  description="Public speaking history by Marcin Skalski, including JVM, service mesh, system design, and engineering talks."
+>
+  <section class="surface">
+    <div class="container-custom border-b py-12 rule-line desktop:py-20">
+      <p class="eyebrow">Public speaking</p>
+      <h1 class="mt-4 max-w-5xl font-display text-[clamp(2.5rem,7vw,6rem)] leading-[1]" data-reveal>
+        Talks, workshops, and technical sessions.
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg text-muted" data-reveal data-reveal-delay="120">
+        Conference talks, internal sessions, panels, and workshops from the existing blog archive.
+      </p>
+    </div>
+  </section>
+
+  <section class="surface">
+    <div class="container-custom py-12 desktop:py-20">
+      <article class="speaking-prose mx-auto max-w-5xl" data-reveal>
+        <Content />
+      </article>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .speaking-prose :global(h1) {
+    display: none;
+  }
+
+  .speaking-prose :global(h3) {
+    font-family: var(--font-display, 'Fraunces'), serif;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .speaking-prose :global(p) {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .speaking-prose :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .speaking-prose :global(table) {
+    border-collapse: collapse;
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  .speaking-prose :global(th),
+  .speaking-prose :global(td) {
+    border-bottom: 1px solid var(--rule);
+    min-width: 10rem;
+    padding: 1rem 1.25rem 1rem 0;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .speaking-prose :global(th) {
+    color: var(--text-muted);
+    font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+</style>

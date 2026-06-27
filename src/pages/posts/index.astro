@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import PostList from '../../components/PostList.astro';
+import { sortPosts } from '../../utils/posts';
+
+const posts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
+---
+
+<Layout
+  title="Posts | Marcin Skalski"
+  description="Technical posts by Marcin Skalski on agentic AI, LLM systems, JVM internals, and production engineering."
+>
+  <section class="surface">
+    <div class="container-custom border-b py-12 rule-line desktop:py-20">
+      <p class="eyebrow">Posts</p>
+      <h1 class="mt-4 max-w-5xl font-display text-[clamp(2.5rem,7vw,6rem)] leading-[1]" data-reveal>
+        Writing on JVM performance.
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg text-muted" data-reveal data-reveal-delay="120">
+        A small archive of practical investigations and notes on agentic AI, LLM harnesses,
+        JVM behavior, and production systems.
+      </p>
+    </div>
+  </section>
+
+  <section class="surface">
+    <div class="container-custom py-12 desktop:py-20">
+      <PostList posts={posts} />
+    </div>
+  </section>
+</Layout>

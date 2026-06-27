@@ -3,8 +3,11 @@
 # Edit at https://www.gitignore.io/?templates=osx,hugo,intellij
 
 ### Hugo ###
-# Generated files by hugo
-/public/
+# Generated files
+/dist/
+/.astro/
+/.netlify/
+/node_modules/
 /resources/_gen/
 
 # Executable may be added to repository
