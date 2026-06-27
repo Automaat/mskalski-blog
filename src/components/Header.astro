@@ -46,7 +46,10 @@ const navLinks: NavLink[] = [
           {
             navLinks.map((link) => (
               <li>
-                <a href={link.href} class="text-[color:var(--text)] transition-opacity hover:opacity-70">
+                <a
+                  href={link.href}
+                  class="text-[color:var(--text)] transition-opacity hover:opacity-70"
+                >
                   {link.label}
                 </a>
               </li>

@@ -14,7 +14,8 @@
     "lint": "eslint . --ext .js,.ts,.astro",
     "lint:fix": "eslint . --ext .js,.ts,.astro --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "prepare": "husky"
   },
   "keywords": [
     "agentic AI",
@@ -34,6 +35,7 @@
     "*.{js,ts,astro,css,md,json}": "prettier --write"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.9",
     "@typescript-eslint/eslint-plugin": "^8.47.0",
     "@typescript-eslint/parser": "^8.47.0",
     "@vitest/ui": "^4.0.13",

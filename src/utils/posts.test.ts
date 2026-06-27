@@ -8,7 +8,8 @@ describe('post helpers', () => {
   });
 
   it('extracts an excerpt from markdown body text', () => {
-    const markdown = '# Heading\n\nThis is **body** text with [a link](https://example.com).\n\n```java\ncode\n```';
+    const markdown =
+      '# Heading\n\nThis is **body** text with [a link](https://example.com).\n\n```java\ncode\n```';
 
     expect(excerptFromMarkdown(markdown)).toBe('This is body text with a link.');
   });
