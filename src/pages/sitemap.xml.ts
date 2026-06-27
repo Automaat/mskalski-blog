@@ -3,7 +3,13 @@ import { postPath, sortPosts } from '../utils/posts';
 
 export async function GET({ site }: { site: URL }) {
   const posts = sortPosts(await getCollection('posts', ({ data }) => !data.draft));
-  const urls = ['/', '/posts/', '/about/', '/public_speaking/', ...posts.map((post) => postPath(post.id))];
+  const urls = [
+    '/',
+    '/posts/',
+    '/about/',
+    '/public_speaking/',
+    ...posts.map((post) => postPath(post.id)),
+  ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

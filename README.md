@@ -19,8 +19,8 @@ npm run test
 
 GitHub Actions:
 
-- `.github/workflows/ci.yml` runs lint, tests, and build on pull requests and pushes to `master`.
-- `.github/workflows/deploy.yml` runs the same checks on `master`, then publishes `dist/` to
+- `.github/workflows/ci.yml` runs lint, tests, and build on pull requests and pushes to `main`.
+- `.github/workflows/deploy.yml` runs the same checks on `main`, then publishes `dist/` to
   `Automaat/automaat.github.io:gh-pages`.
 
 The deploy workflow needs a repository secret named `GH_PAGES_DEPLOY_TOKEN` with write access to
