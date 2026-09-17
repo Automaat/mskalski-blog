@@ -40,7 +40,7 @@
     "@typescript-eslint/parser": "^8.47.0",
     "@vitest/ui": "^4.0.13",
     "eslint": "^10.0.0",
-    "eslint-plugin-astro": "^2.0.0",
+    "eslint-plugin-astro": "^3.0.0",
     "happy-dom": "^20.0.10",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.0",
