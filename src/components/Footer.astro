@@ -12,24 +12,20 @@ const links = [
 ---
 
 <footer class="surface border-t rule-line">
-  <div
-    class="container-custom flex flex-col gap-5 py-10 tablet:flex-row tablet:items-baseline tablet:justify-between"
-  >
+  <div class="container-custom flex flex-col gap-5 py-10 tablet:flex-row tablet:items-baseline tablet:justify-between">
     <p class="text-xs text-subtle">&copy; {currentYear} Marcin Skalski</p>
 
     <div class="label-mono flex flex-wrap gap-x-7 gap-y-3">
-      {
-        links.map((link) => (
-          <a
-            href={link.href}
-            target={link.external ? '_blank' : undefined}
-            rel={link.external ? 'noopener noreferrer' : undefined}
-            class="transition-opacity hover:opacity-70"
-          >
-            {link.label}
-          </a>
-        ))
-      }
+      {links.map((link) => (
+        <a
+          href={link.href}
+          target={link.external ? '_blank' : undefined}
+          rel={link.external ? 'noopener noreferrer' : undefined}
+          class="transition-opacity hover:opacity-70"
+        >
+          {link.label}
+        </a>
+      ))}
     </div>
   </div>
 </footer>

@@ -10,9 +10,7 @@ const recentPosts = posts.slice(0, 3);
 
 <Layout>
   <section class="surface">
-    <div
-      class="container-custom grid gap-10 border-b py-12 rule-line desktop:grid-cols-[0.66fr_0.34fr] desktop:items-end desktop:py-20"
-    >
+    <div class="container-custom grid gap-10 border-b py-12 rule-line desktop:grid-cols-[0.66fr_0.34fr] desktop:items-end desktop:py-20">
       <div data-reveal>
         <p class="eyebrow">Agentic AI / LLM systems / agent harnesses</p>
         <h1 class="mt-5 max-w-5xl font-display text-[clamp(3rem,8vw,7rem)] leading-[0.95]">
@@ -23,8 +21,12 @@ const recentPosts = posts.slice(0, 3);
           details that make autonomous software useful.
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
-          <a href="/posts/" class="btn-solid">Read posts</a>
-          <a href="/about/" class="btn-outline">About</a>
+          <a href="/posts/" class="btn-solid">
+            Read posts
+          </a>
+          <a href="/about/" class="btn-outline">
+            About
+          </a>
         </div>
       </div>
 
@@ -46,7 +48,9 @@ const recentPosts = posts.slice(0, 3);
             Technical notes.
           </h2>
         </div>
-        <a href="/posts/" class="link-mono">All posts</a>
+        <a href="/posts/" class="link-mono">
+          All posts
+        </a>
       </div>
 
       <PostList posts={recentPosts} compact />
