@@ -40,21 +40,17 @@ const navLinks: NavLink[] = [
         id="mobile-menu"
         class="absolute left-0 top-full hidden w-full border-b bg-[color:var(--bg)] p-6 rule-line desktop:relative desktop:flex desktop:w-auto desktop:items-center desktop:gap-10 desktop:border-0 desktop:bg-transparent desktop:p-0"
       >
-        <ul
-          class="flex flex-col gap-6 font-mono text-[12px] uppercase tracking-[0.14em] desktop:flex-row desktop:gap-8"
-        >
-          {
-            navLinks.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  class="text-[color:var(--text)] transition-opacity hover:opacity-70"
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
+        <ul class="flex flex-col gap-6 font-mono text-[12px] uppercase tracking-[0.14em] desktop:flex-row desktop:gap-8">
+          {navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="text-[color:var(--text)] transition-opacity hover:opacity-70"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
         </ul>
 
         <button
