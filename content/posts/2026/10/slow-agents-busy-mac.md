@@ -112,7 +112,7 @@ agents:
 - `prefix_rule(pattern=["git", "status"], decision="allow")` in a Codex rules file
 - `"git status": "allow"` plus `"git status *": "allow"` in the opencode config
 
-That came to 228 allow and 8 deny rules for every agent. Two details matter:
+That came to 228 allow and 8 deny rules for every agent. Replayed against the previous 18 days of Claude's Bash calls, the new list would have matched 67.6% of them, up from 23.8%. Two details matter:
 
 - In Codex, an allow rule runs the command outside the sandbox. A single parse error in any rules file drops every user rule.
 - Claude Code's auto mode ignores very broad rules, such as `Bash(*)` or any package-manager `run`. So I list specific forms like `npm run lint`.
