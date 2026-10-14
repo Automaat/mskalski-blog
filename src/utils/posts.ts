@@ -5,6 +5,8 @@ export type PostEntry = CollectionEntry<'posts'>;
 const postImageById: Record<string, string> = {
   timeouts: '/images/2019/12/grafana.png',
   '2020/05/xms_good_practice': '/images/2020/05/typowy_czas_w_gc.png',
+  '2023/04/benefits-of-kuma': '/images/2023/04/kuma-benefits.png',
+  '2023/07/mesh-global-rate-limit-policy': '/images/2023/07/mesh-global-rate-limit.png',
 };
 
 export function postPath(id: string): string {
