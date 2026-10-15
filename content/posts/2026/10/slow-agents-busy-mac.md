@@ -33,7 +33,7 @@ Agent transcripts are a great data source. Every tool call has a timestamp, so t
 | Context size | Flat or lower                                                                                                        |
 | Thermals     | No throttling recorded                                                                                               |
 
-One chart settled it. Codex command time followed host CPU: 0.5 s at the median when the Mac was under 40% CPU, and 2.7 s at 70% or more. Model latency did not change with load at all. **Load slowed the tools, not the model.**
+One chart settled it. On October 12–14, Codex command time followed host CPU: 0.5 s at the median when the Mac was under 40% CPU, and 2.7 s at 70% or more. Model latency did not change with load at all. **Load slowed the tools, not the model.**
 
 ## What it was
 
@@ -45,7 +45,7 @@ From October 9, Codex model responses per day went from 11.5k to 24.1k, and conc
 
 Every agent session starts every globally configured MCP server. Long-lived processes, such as the Codex app-server daemon and `opencode serve`, keep one set per thread and rarely let go. After five days the Codex daemon held about 4.9 GB and 114 child processes.
 
-The count across the machine was 253 MCP server processes: 63 Peekaboo, 61 chrome-devtools and 60 of Sail's memory server. Together, the 63 Peekaboo processes used 59–75% of a CPU core while doing nothing. Peekaboo's tool schemas cost about 14k tokens per session, and Claude called it **zero times** in 18 days. The agents used Peekaboo through its CLI instead.
+The count across the machine was 253 MCP server processes, wrappers included. The top-level servers were 63 Peekaboo, 61 chrome-devtools and 60 of Sail's memory server. Together, the 63 Peekaboo processes used 59–75% of a CPU core while doing nothing. Peekaboo's tool schemas cost about 14k tokens per session, and Claude called it **zero times** in 18 days. The agents used Peekaboo through its CLI instead.
 
 ### Swap
 
@@ -59,9 +59,9 @@ bilgie, my disk janitor, was supposed to catch exactly this. Its emergency pass 
 
 ### The approval tax
 
-Codex's auto-reviewer ran 38,162 reviews in 16 days. They added up to 24 hours of review time and denied 0.26% of commands. 92.6% of Codex requests asked for escalation before trying the sandbox at all.
+Codex's auto-reviewer ran 38,162 reviews in 16 days. They added up to 24 hours of review time and denied 0.26% of commands. On October 13, 92.6% of Codex requests asked for escalation before trying the sandbox at all.
 
-Allowlists didn't help as much as I expected. Only 24% of Claude's Bash calls matched an allow rule, and only about a third of Codex's requests had a shape a prefix rule can match. Env prefixes, `timeout` wrappers, redirects and heredocs all defeat prefix matching.
+Allowlists didn't help as much as I expected. Over the 18 days before the fix, only 24% of Claude's Bash calls matched an allow rule, and only about a third of Codex's requests had a shape a prefix rule can match. Env prefixes, `timeout` wrappers, redirects and heredocs all defeat prefix matching.
 
 ### Waiting on subagents
 
@@ -83,7 +83,7 @@ Every guardrail has a cost, and the cost grows with the number of agents.
 
 ## The fixes
 
-- **MCP servers are opt-in.** Peekaboo is gone; the skill drives its CLI. chrome-devtools moved into the `build` agent profile only. Claude Code agent definitions can declare inline `mcpServers`, which start with the agent and stop when it finishes. The process count went from 253 to 41.
+- **MCP servers are opt-in.** Peekaboo is gone; the skill drives its CLI. chrome-devtools moved into the `build` agent profile only. Claude Code agent definitions can declare inline `mcpServers`, which start with the agent and stop when it finishes. The process count went from 253 to 41. opencode has no per-agent MCP setting, so chrome-devtools is off there entirely. My first try there used `enabled: false`, which opencode 2 silently ignores; the key is `disabled: true`.
 - **Long-lived daemons get restarted.**
 - **Shared caches stay shared.** Only `CARGO_TARGET_DIR` and `GOTMPDIR` go in the per-task folder.
 - **Plain commands, sandbox first.** Agents are told to drop `VAR=` prefixes, wrappers and redirects, so allow rules match. Codex tries the sandbox first and escalates one plain command at a time.
@@ -121,19 +121,21 @@ I also filed what I found upstream: [Sail's idle resource use](https://github.co
 
 ## Results
 
-TODO(after): a week of data after the fixes (October 15–22), measured the same way. Normalize by workload and name the confounders: the model and effort mix changed too.
+Before is October 9–14 and After is October 15–21. The same scripts computed both, so a few figures differ from the ones above, which came from the windows I used while digging.
 
-| Metric                                   | Before   | After       |
-| ---------------------------------------- | -------- | ----------- |
-| MCP server processes, busy moment        | 253      | TODO(after) |
-| Swap, daily mean                         | 16.2 GiB | TODO(after) |
-| Hours above 90% CPU per day              | 4.6      | TODO(after) |
-| Free disk, daily minimum                 | 12.8 GiB | TODO(after) |
-| Codex reviews per 1,000 commands         | ~256     | TODO(after) |
-| Codex requests escalated up front        | 92.6%    | TODO(after) |
-| Claude Bash calls matched by allow rules | 24%      | TODO(after) |
-| Codex command p50, busy hours            | 2.7 s    | TODO(after) |
-| Main-thread time waiting on subagents    | 51%      | TODO(after) |
+TODO(after): fill After. Normalize by workload and name the confounders: the model and effort mix changed too.
+
+| Metric                                     | Before   | After       |
+| ------------------------------------------ | -------- | ----------- |
+| MCP server processes, busy moment (Oct 14) | 253      | TODO(after) |
+| Swap, daily mean                           | 10.6 GiB | TODO(after) |
+| Hours above 90% CPU per day                | 1.1      | TODO(after) |
+| Free disk, lowest                          | 12.8 GiB | TODO(after) |
+| Codex reviews per 1,000 commands           | 200      | TODO(after) |
+| Codex requests escalated up front          | 84.6%    | TODO(after) |
+| Claude Bash calls matched by allow rules   | 17%      | TODO(after) |
+| Codex command p50, hours above 70% CPU     | 2.1 s    | TODO(after) |
+| Main-thread time waiting on subagents      | 53%      | TODO(after) |
 
 ## The month that led here
 
