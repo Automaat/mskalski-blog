@@ -87,7 +87,7 @@ Every guardrail has a cost, and the cost grows with the number of agents.
 - **Long-lived daemons get restarted.**
 - **Shared caches stay shared.** Only `CARGO_TARGET_DIR` and `GOTMPDIR` go in the per-task folder.
 - **Plain commands, sandbox first.** Agents are told to drop `VAR=` prefixes, wrappers and redirects, so allow rules match. Codex tries the sandbox first and escalates one plain command at a time.
-- **Spotlight is off.** I use Raycast, which keeps its own index, so Spotlight was pure overhead.
+- **Spotlight skips the dev folders.** Search Privacy in System Settings is the only supported way to exclude a folder. I first turned indexing off for the whole Mac, thinking Raycast kept its own index. It doesn't, and app search broke within hours, so indexing went back on with my code folders excluded.
 - **One permission list for every agent.**
 
 That last one deserves a closer look. Each agent has its own permission format: Claude Code has `Bash(cmd:*)` rules in JSON, Codex has Starlark `prefix_rule`s, and opencode has glob keys where the last match wins. I now keep a single list in [zakwas](https://github.com/Automaat/zakwas), the tool that sets up my Mac:
