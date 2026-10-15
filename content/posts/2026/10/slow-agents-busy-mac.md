@@ -125,6 +125,8 @@ Before is October 9–14 and After is October 15–21. The same scripts computed
 
 TODO(after): fill After. Normalize by workload and name the confounders: the model and effort mix changed too.
 
+On October 15 I also deleted about 173 GB of scratch folders left by finished tasks, so free disk in the After column reflects that cleanup as much as the fixes.
+
 | Metric                                     | Before   | After       |
 | ------------------------------------------ | -------- | ----------- |
 | MCP server processes, busy moment (Oct 14) | 253      | TODO(after) |
